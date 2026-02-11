@@ -131,28 +131,43 @@ async function loadParticipantsFromCSV() {
 }
 
 function processParticipants(data) {
-    // 1. Veriyi "Belediye Adı"na göre grupla
     const grouped = {};
     
     data.forEach(p => {
-        // Boş satır kontrolü
-        if (!p['Belediye Adı'] || !p['İsim']) return;
+        // İsim yoksa atla
+        if (!p['İsim']) return;
 
-        const muni = p['Belediye Adı'].trim();
+        // --- YENİ MANTIK: Ünvan Kontrolü ---
+        // Eğer Ünvan boşsa, bu bir destek personelidir.
+        // 'İl' sütunundaki veriyi alıp 'Ekibi' ekliyoruz.
+        // Örn: İl='Ulaşım' -> Ünvan='Ulaşım Ekibi'
+        if (!p['Ünvan'] || p['Ünvan'].trim() === '') {
+            const ekipTuru = p['İl'] ? p['İl'].trim() : 'Destek'; // İl boşsa 'Destek' yaz
+            p['Ünvan'] = `${ekipTuru} Ekibi`; 
+            p['isSupport'] = true; // Destek personeli bayrağı
+        } else {
+            p['isSupport'] = false;
+        }
+
+        // Belediye Adı boşsa (Destek ekibi olabilir), "Organizasyon" veya İl bilgisini kullan
+        let muni = p['Belediye Adı'] ? p['Belediye Adı'].trim() : (p['İl'] ? p['İl'] + ' Ekibi' : 'Diğer');
+        
+        // Veriyi düzelt: Belediye Adı yoksa atanan değeri kullan
+        p['Belediye Adı'] = muni;
+
         if (!grouped[muni]) grouped[muni] = [];
         grouped[muni].push(p);
     });
 
-    // 2. Çiftleri Eşleştir (Başkan ve Eşi)
     const processedList = [];
 
     Object.values(grouped).forEach(group => {
-        // Grupta Başkan ve Başkan Eşi var mı bak
-        const baskan = group.find(x => x['Ünvan'] && (x['Ünvan'].includes('Başkan') && !x['Ünvan'].includes('Eşi') && !x['Ünvan'].includes('Yardımcısı')));
-        const esi = group.find(x => x['Ünvan'] && x['Ünvan'].includes('Başkan Eşi'));
+        // Grupta Başkan ve Başkan Eşi var mı bak (Destek ekiplerinde bu aranmaz)
+        const baskan = group.find(x => !x.isSupport && x['Ünvan'] && (x['Ünvan'].includes('Başkan') && !x['Ünvan'].includes('Eşi') && !x['Ünvan'].includes('Yardımcısı')));
+        const esi = group.find(x => !x.isSupport && x['Ünvan'] && x['Ünvan'].includes('Başkan Eşi'));
 
         if (baskan && esi) {
-            // Çift Kartı Oluştur
+            // Çift Kartı
             processedList.push({
                 type: 'couple',
                 p1: baskan,
@@ -160,11 +175,11 @@ function processParticipants(data) {
                 searchString: generateSearchString(baskan) + " " + generateSearchString(esi)
             });
 
-            // Gruptan bu kişileri çıkararak diğerlerini (Meclis üyesi, koruma vs.) tekli ekle
+            // Geri kalanları tekli ekle
             group.forEach(person => {
                 if (person !== baskan && person !== esi) {
                     processedList.push({
-                        type: 'single',
+                        type: person.isSupport ? 'support' : 'single', // Tipi belirle
                         p1: person,
                         searchString: generateSearchString(person)
                     });
@@ -174,7 +189,7 @@ function processParticipants(data) {
             // Eşleşme yoksa herkesi tekli ekle
             group.forEach(person => {
                 processedList.push({
-                    type: 'single',
+                    type: person.isSupport ? 'support' : 'single', // Tipi belirle
                     p1: person,
                     searchString: generateSearchString(person)
                 });
@@ -182,14 +197,12 @@ function processParticipants(data) {
         }
     });
 
-    // Global participants değişkenini güncelle
-    // (Import ettiğimiz değişken read-only olabilir, o yüzden state içine de alabiliriz veya data.js'deki array'i push ile doldurabiliriz)
-    // En temizi participants arrayini boşaltıp doldurmak:
+    // Listeyi güncelle
     participants.length = 0;
     processedList.forEach(p => participants.push(p));
     
     console.log(`Katılımcılar Yüklendi: ${participants.length} kart.`);
-    renderParticipants(); // İlk yüklemede hepsini göster
+    renderParticipants();
 }
 
 function generateSearchString(p) {
@@ -217,7 +230,6 @@ function renderParticipants(filterText = '') {
     filtered.forEach(item => {
         const p1 = item.p1;
         
-        // Ortak Bilgiler (p1'den alıyoruz, genellikle aynıdır)
         const bus = p1['Otobüs Adı'] || '-';
         const room = p1['Oda Tipi'] || '-';
         const hotels = {
@@ -226,21 +238,18 @@ function renderParticipants(filterText = '') {
             granada: p1['Granada Otel']
         };
 
-        // İletişim Bilgileri (Sadece Başkan/Asıl Kişi için veya ikisi için)
+        // İletişim
         let contactHtml = '';
         const phone1 = p1['Telefon'];
         const ozKalemAd = p1['Özel Kalem Ad Soyad'];
         const ozKalemTel = p1['Özel Kalem Telefon'];
 
-        // Kişi 1 İletişim
         if (phone1) contactHtml += `<div class="part-info-row">📱 ${p1['İsim']}: <a href="tel:${phone1}" class="btn-call">Ara</a></div>`;
         
-        // Çift ise Eş İletişim (Varsa)
         if (item.type === 'couple' && item.p2['Telefon']) {
              contactHtml += `<div class="part-info-row">📱 ${item.p2['İsim']}: <a href="tel:${item.p2['Telefon']}" class="btn-call">Ara</a></div>`;
         }
 
-        // Özel Kalem
         if (ozKalemAd || ozKalemTel) {
             contactHtml += `<div class="part-section"><div class="part-label">Özel Kalem / İletişim</div>`;
             if (ozKalemAd) contactHtml += `<div class="part-info-row">👤 ${ozKalemAd}</div>`;
@@ -248,7 +257,7 @@ function renderParticipants(filterText = '') {
             contactHtml += `</div>`;
         }
 
-        // Kart Başlığı (İsimler)
+        // İsim Alanı
         let namesHtml = '';
         if (item.type === 'couple') {
             namesHtml = `
@@ -264,14 +273,23 @@ function renderParticipants(filterText = '') {
             `;
         }
 
+        // --- İKON SEÇİMİ ---
+        // Destek ekibiyse farklı ikon, belediyeyse bina ikonu
+        let headerIcon = item.type === 'support' 
+            ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' // Saat/İş ikonu
+            : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-2a2 2 0 0 1 4 0v2"/></svg>'; // Bina ikonu
+
+        // Destek ekibiyse Belediye Adı yerine İl (Ekip Adı) yazılabilir veya olduğu gibi bırakılır.
+        // processParticipants içinde belediye adını zaten ayarladık.
+        
         html += `
         <div class="part-card ${item.type}">
             <div class="part-header">
                 <div class="part-names">
                     ${namesHtml}
                     <div class="part-muni">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-2a2 2 0 0 1 4 0v2"/></svg>
-                        ${p1['Belediye Adı']} (${p1['İl']})
+                        ${headerIcon}
+                        ${p1['Belediye Adı']} ${p1['İl'] && !p1['isSupport'] ? `(${p1['İl']})` : ''} 
                     </div>
                 </div>
                 <div class="part-badges">

@@ -405,21 +405,58 @@ body::before { content: ''; position: fixed; inset: 0; background: radial-gradie
 }
 .btn-call:hover { background: rgba(46, 204, 113, 0.2); }
 
+/* --- OTEL LİSTESİ DÜZENLEMESİ (Mobil Uyumlu) --- */
 .hotel-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex; /* Grid yerine Flex kullanıyoruz */
+    flex-direction: column; /* Alt alta sırala */
     gap: 8px;
 }
 
 .hotel-item {
     background: var(--bg-tertiary);
-    padding: 8px;
+    padding: 10px 14px;
     border-radius: 8px;
-    text-align: center;
+    display: flex; /* İçeriği yan yana diz */
+    align-items: center;
+    justify-content: space-between; /* Şehir sola, Otel sağa */
+    border: 1px solid var(--border-subtle);
 }
 
-.hotel-city { font-size: 10px; color: var(--gold-primary); margin-bottom: 2px; }
-.hotel-name { font-size: 11px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hotel-city { 
+    font-size: 11px; 
+    color: var(--gold-primary); 
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 60px; /* Şehir isimleri hizalı dursun */
+}
+
+.hotel-name { 
+    font-size: 13px; 
+    font-weight: 500; 
+    color: var(--text-primary); 
+    text-align: right; /* Sağa yasla */
+    white-space: normal; /* Uzun isimler alt satıra geçsin */
+    line-height: 1.3;
+}
 
 /* Mevcut main padding'i katılımcı listesi için ayarla */
 .view#participantsView { padding-top: 0; }
+
+/* --- DESTEK EKİBİ STİLLERİ --- */
+.part-card.support {
+    border-left: 4px solid #3498db; /* Mavi Şerit */
+    background: linear-gradient(to right, rgba(52, 152, 219, 0.05), var(--bg-card));
+}
+
+.part-card.support .part-role {
+    color: #3498db; /* Mavi yazı */
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.part-card.support .part-name {
+    font-size: 16px; /* İsimleri bir tık küçük olabilir */
+}
