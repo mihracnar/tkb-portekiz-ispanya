@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d1521">
+    <meta name="description" content="Tarihi Kentler Birliği Resmi Heyet Rehberi - İspanya Portekiz 2026">
+    <title>TKB Heyet Rehberi | Portekiz - İspanya 2026</title>
+    <link rel="apple-touch-icon" href="https://www.tarihikentlerbirligi.org/wp-content/uploads/TKBLogoSeffaf-1.png">
+    
+    <!-- Fontlar -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    
+    <!-- Ana CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <div class="logo-emblem"><img src="https://www.tarihikentlerbirligi.org/wp-content/uploads/TKBLogoSeffaf-1.png" alt="TKB" onerror="this.parentElement.textContent='TKB'"></div>
+                <div class="logo-text"><div class="logo-title">Tarihi Kentler Birliği<br>Portekiz - İspanya Seyahat Rehberi</div><div class="logo-subtitle">11-15 Şubat 2026</div></div>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" id="searchBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+                <button class="icon-btn" id="settingsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+            </div>
+        </div>
+        <div class="day-selector" id="daySelector">
+            <button class="day-chip active" data-day="all"><span>Tümü</span></button>
+            <button class="day-chip" data-day="1"><span>1. Gün</span><span class="day-label">Lizbon</span></button>
+            <button class="day-chip" data-day="2"><span>2. Gün</span><span class="day-label">Lizbon → Sevilla</span></button>
+            <button class="day-chip" data-day="3"><span>3. Gün</span><span class="day-label">Sevilla → Córdoba</span></button>
+            <button class="day-chip" data-day="4"><span>4. Gün</span><span class="day-label">Granada</span></button>
+            <button class="day-chip" data-day="5"><span>5. Gün</span><span class="day-label">Malaga - Dönüş</span></button>
+        </div>
+        <div class="diplo-selector" id="diploSelector">
+            <button class="diplo-chip active" data-filter="all"><span class="flag">🌍</span>Tümü</button>
+            <button class="diplo-chip portugal" data-filter="portugal"><span class="flag">🇵🇹</span>Portekiz</button>
+            <button class="diplo-chip spain" data-filter="spain"><span class="flag">🇪🇸</span>İspanya</button>
+            <button class="diplo-chip" data-filter="cities"><span class="flag">🏛️</span>Şehirler</button>
+            <button class="diplo-chip" data-filter="cultural"><span class="flag">🎭</span>Kültürel</button>
+        </div>
+    </header>
+
+    <div class="offline-indicator" id="offlineIndicator">📴 Çevrimdışı mod</div>
+
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-bar">
+            <div class="search-input-wrap">
+                <svg class="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="Türkçe, İngilizce veya İspanyolca ara...">
+            </div>
+            <div class="search-close" id="searchClose"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <main class="main" id="mainContent">
+        <div class="view" id="programView">
+            <div class="map-container">
+                <div class="map-wrapper">
+                    <div id="programMap"></div>
+                    <div class="map-controls">
+                        <button class="map-control-btn" id="locateBtn" title="Konumumu göster">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/><circle cx="12" cy="12" r="8"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item"><span class="legend-dot sight"></span>Şehir Turu / Gezilecek Yer</div>
+                    <div class="legend-item"><span class="legend-dot recommendation"></span>Öneri Mekanlar</div>
+                    <div class="legend-item"><span class="legend-dot hotel"></span>Otel</div>
+                    <div class="legend-item"><span class="legend-dot airport"></span>Havalimanı</div>
+                    <div class="legend-item"><span class="legend-dot user"></span>Konumum</div>
+                </div>
+            </div>
+            <div id="programContent"></div>
+        </div>
+        <div class="view" id="phrasesView"><div class="category-pills" id="categoryPills"></div><div id="phrasesContainer"></div></div>
+        <div class="view" id="favoritesView"><div class="section"><div class="section-header"><h2 class="section-title"><span class="icon">⭐</span>Favorilerim</h2></div></div><div id="favoritesContainer"></div></div>
+        <div class="view" id="diplomacyView"></div>
+<!-- Katılımcı Listesi Görünümü -->
+        <div class="view" id="participantsView">
+            <div class="search-bar-sticky">
+                <div class="search-input-wrap">
+                    <svg class="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <input type="text" class="search-input" id="participantSearchInput" placeholder="İsim, otel, otobüs veya belediye ara...">
+                </div>
+            </div>
+            <div id="participantsContainer" class="phrase-grid" style="padding: 20px;"></div>
+        </div>        
+        <div class="view" id="infoView"></div>
+    </main>
+
+    <nav class="bottom-nav">
+        <div class="nav-tab active" data-view="program"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="nav-label">Program</span></div>
+        <div class="nav-tab" data-view="phrases"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><span class="nav-label">İfadeler</span></div>
+        
+        <div class="nav-tab" data-view="favorites"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span class="nav-label">Favoriler</span></div>
+        
+        <div class="nav-tab" data-view="diplomacy"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="nav-label">Diplomasi</span></div>
+
+        <div class="nav-tab" data-view="participants">
+            <div class="nav-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span class="nav-label">Heyet</span>
+        </div>
+        
+        <div class="nav-tab" data-view="info"><div class="nav-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div><span class="nav-label">Bilgi</span></div>
+    </nav>
+
+    <div class="settings-overlay" id="settingsOverlay">
+        <div class="settings-sheet">
+            <div class="sheet-handle"></div>
+            <h2 class="settings-title">Ses Ayarları</h2>
+            <div class="setting-row"><div class="setting-info"><div class="setting-label">Sesli Okuma</div><div class="setting-desc">İfadeleri sesli olarak dinleyin</div></div><div class="toggle-switch active" id="toggleVoice"></div></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-label">Konuşma Hızı</div></div><div class="speed-options"><button class="speed-opt" data-rate="0.7">Yavaş</button><button class="speed-opt active" data-rate="0.9">Normal</button><button class="speed-opt" data-rate="1.1">Hızlı</button></div></div>
+            <div class="setting-row"><div class="setting-info"><div class="setting-label">Otomatik Tekrar</div><div class="setting-desc">Her ifadeyi iki kez okur</div></div><div class="toggle-switch" id="toggleRepeat"></div></div>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <!-- JavaScript Ana Modülü -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+Şehir,Kategori,Alt Kategori,Mekan / Lokasyon Adı,Lon,Lat
+İstanbul,Havalimanı,Kalkış Noktası,İstanbul Havalimanı,28.72931954,41.27671996
+Lizbon,Havalimanı,Varış Noktası,Lizbon Havalimanı,-9.132098576,38.77887571
+Malaga,Havalimanı,Dönüş Noktası,Malaga Havalimanı,-4.493778804,36.67686046
+Lizbon,Oteller,Konaklama,Hotel Lutecia,-9.138869055,38.74603141
+Lizbon,Oteller,Konaklama,Ramada by Wyndham Lisboa,-9.124190296,38.7397382
+Lizbon,Oteller,Konaklama,VIP Executive Entre Campos,-9.150399877,38.74708914
+Lizbon,Oteller,Konaklama,VIP Executive Art Hotel,-9.150401327,38.74709039
+Sevilla,Oteller,Konaklama,Eurostars Al Andalus Palace,-5.980224899,37.3540976
+Sevilla,Oteller,Konaklama,Novotel Sevilla,-5.972190329,37.38297941
+Sevilla,Oteller,Konaklama,Melia Lebreros,-5.972787142,37.38687383
+Granada,Oteller,Konaklama,Hotel Occidental Granada,-3.603886412,37.16912328
+Granada,Oteller,Konaklama,Hotel Barceló Carmen,-3.598321747,37.17065935
+Granada,Oteller,Konaklama,Hotel Barceló Congress,-3.60799814,37.16702917
+Lizbon,Öneri Mekanlar,Restoran,Taberna da Rua das Flores,-9.143626638,38.71007242
+Lizbon,Öneri Mekanlar,Restoran,Cantinho do Avillez,-9.420132344,38.69877397
+Lizbon,Öneri Mekanlar,Restoran,Café Buenos Aires,-9.141769635,38.71346689
+Lizbon,Öneri Mekanlar,Gastronomi,TimeOut Market,-9.14564864,38.70707314
+Lizbon,Öneri Mekanlar,Restoran,Solar dos Presuntos,-9.141699865,38.71783738
+Lizbon,Öneri Mekanlar,Restoran,SEEN by Olivier,-9.147264386,38.72105137
+Lizbon,Öneri Mekanlar,Kafe,A Brasileira (Fernando Pessoa heykeli),-9.142109554,38.71063877
+Lizbon,Öneri Mekanlar,Kafe,Benard,-9.141890528,38.7107228
+Lizbon,Öneri Mekanlar,Kafe,Versailles (Baixa şubesi),-9.145669281,38.73552743
+Lizbon,Öneri Mekanlar,Pastane,Manteigaria (Rua Augusta/Chiado),-9.138115403,38.711523
+Lizbon,Öneri Mekanlar,Pastane,Fábrica da Nata (Praca dos Restauradores),-9.141103606,38.71579264
+Lizbon,Öneri Mekanlar,Pastane,Castro Atelier,-9.140468015,38.71093722
+Lizbon,Öneri Mekanlar,Alışveriş,Rua Augusta üzerindeki dükkânlar,-9.137670015,38.71066257
+Lizbon,Öneri Mekanlar,Alışveriş,Conserveira de Lisboa,-9.134697683,38.7093114
+Sevilla,Öneri Mekanlar,Kafe,La Cacharrería,-5.991438415,37.39468839
+Sevilla,Öneri Mekanlar,Kafe,Virgin Coffee,-5.99176735,37.39398916
+Sevilla,Öneri Mekanlar,Pastane,La Campana,-5.994838899,37.39260156
+Sevilla,Öneri Mekanlar,Pastane,El Comercio,-5.992374824,37.39078414
+Sevilla,Öneri Mekanlar,Pastane,Manu Jara,-5.996298127,37.3935537
+Sevilla,Öneri Mekanlar,Alışveriş,Calle Sierpes,-5.99451334,37.39093112
+Sevilla,Öneri Mekanlar,Alışveriş,Calle Tetuán,-5.995120583,37.3901099
+Sevilla,Öneri Mekanlar,Alışveriş,Triana seramik atölyeleri,-6.004709221,37.38536778
+Cordoba,Öneri Mekanlar,Kafe,Café de Noa,-4.804621803,37.88677682
+Cordoba,Öneri Mekanlar,Kafe,Gongora Café,-4.781443736,37.88590593
+Cordoba,Öneri Mekanlar,Kafe,La Bicicleta,-4.775663975,37.87997323
+Cordoba,Öneri Mekanlar,Alışveriş,Calleja de las Flores çevresi,-4.779634644,37.88034739
+Cordoba,Öneri Mekanlar,Alışveriş,Zoco Municipal,-4.782939036,37.87968741
+Cordoba,Öneri Mekanlar,Alışveriş,Plaza del Potro çevresi,-4.774720408,37.88075976
+Granada,Öneri Mekanlar,Bölge,Plaza Nueva,-3.595906585,37.17673181
+Granada,Öneri Mekanlar,Cadde,Elvira Caddesi,-3.598544502,37.17898389
+Granada,Öneri Mekanlar,Cadde,Calle Reyes Católicos,-3.598267955,37.17535132
+Granada,Öneri Mekanlar,Cadde / Tapas,Calle Navas (Tapas Sokağı),-3.59780595,37.17346165
+Granada,Öneri Mekanlar,Restoran,Restaurante El Mercader,-3.596237986,37.17707894
+Granada,Öneri Mekanlar,Restoran,La Cueva de 1900,-3.599144411,37.17427483
+Granada,Öneri Mekanlar,Restoran,Bodegas Castañeda,-3.596990159,37.17687165
+Granada,Öneri Mekanlar,Tapas Bar,Bar Los Diamantes,-3.595924637,37.17663095
+Granada,Öneri Mekanlar,Restoran,Paprika Restaurante,-3.599189051,37.18207997
+Granada,Öneri Mekanlar,Restoran,Ras Café,-3.590902145,37.17867085
+Granada,Öneri Mekanlar,Kafe,Café 4 Gatos,-3.594995685,37.1791338
+Granada,Öneri Mekanlar,Kafe,La Tetería del Bañuelo,-3.593127058,37.17868468
+Granada,Öneri Mekanlar,Alışveriş,Alcaicería (Geleneksel Çarşı),-3.598869596,37.17547835
+Granada,Öneri Mekanlar,Alışveriş,Calle Calderería Nueva,-3.59683174,37.17789419
+Lizbon,Şehir Turu,Doğa / Kıyı,Tejo Nehri kıyısı,-9.092808691,38.78563146
+Lizbon,Şehir Turu,Tarihi Yapı,Jeronimos Manastırı,-9.206693174,38.6978825
+Lizbon,Şehir Turu,Tarihi Yapı,Belém Kulesi,-9.215988634,38.69161366
+Lizbon,Şehir Turu,Anıt,Keşifler Anıtı,-9.205738122,38.69361164
+Lizbon,Şehir Turu,Park,Eduardo VII Parkı,-9.15270426,38.72836703
+Lizbon,Şehir Turu,Meydan,Praça do Comércio,-9.13635832,38.70730276
+Lizbon,Şehir Turu,Meydan / Bölge,Baixa,-9.138313263,38.71083747
+Lizbon,Şehir Turu,Meydan,Rossio Meydanı,-9.139328536,38.71390112
+Lizbon,Şehir Turu,Meydan,Restauradores Meydanı,-9.141584855,38.71555224
+Lizbon,Şehir Turu,Cadde,Avenida da Liberdade,-9.145808406,38.72057519
+Lizbon,Şehir Turu,Meydan,Marquês de Pombal Meydanı,-9.149563564,38.72532387
+Lizbon,Şehir Turu,Bölge,Cais do Sodré,-9.145157625,38.70602184
+Sevilla,Şehir Turu,Doğa / Kıyı,Guadalquivir Nehri kıyısı,-5.998880849,37.38260858
+Sevilla,Şehir Turu,Park,María Luisa Parkı,-5.987122003,37.37427135
+Sevilla,Şehir Turu,Meydan,Plaza de España,-5.986836853,37.37738363
+Sevilla,Şehir Turu,Meydan,Plaza de América,-5.986901385,37.371705
+Sevilla,Şehir Turu,Sergi Alanı,İbero-Amerikan Fuarı Stantları,-5.987184338,37.37430503
+Sevilla,Şehir Turu,Tarihi Yapı,Sevilla Katedrali,-5.992763503,37.38588387
+Sevilla,Şehir Turu,Anıt Mezar,Kristof Kolomb’un Mezarı,-5.993050087,37.38588581
+Sevilla,Şehir Turu,Tarihi Yapı,Giralda Minaresi,-5.992496963,37.38622488
+Sevilla,Şehir Turu,Tarihi Yapı,Alcázar Sarayı,-5.989185007,37.3832309
+Cordoba,Şehir Turu,Doğa / Kıyı,Guadalquivir Nehri,-4.778208114,37.87687016
+Cordoba,Şehir Turu,Tarihi Köprü,Tarihi Roma Köprüsü,-4.777853765,37.8767862
+Cordoba,Şehir Turu,Tarihi Yapı,Roma Kapısı,-4.778724705,37.87783035
+Cordoba,Şehir Turu,Kültürel,Eski İslam Kütüphaneleri,-4.854032823,37.88065449
+Cordoba,Şehir Turu,Dini Yapı,Kurtuba Ulu Camii,-4.779272203,37.87894236
+Cordoba,Şehir Turu,Tarihi Sokak,Çiçek Sokağı,-4.779415804,37.8804602
+Cordoba,Şehir Turu,Çarşı,Arap Pazarı,-4.782126644,37.87970988
+Cordoba,Şehir Turu,Savunma,Eski Kent Surları,-4.783170963,37.87867415
+Granada,Şehir Turu,Gözlem,Mirador de San Nicolás,-3.592886816,37.18115176
+Granada,Şehir Turu,Dini Yapı,Granada Katedrali,-3.599654463,37.17671805
+Granada,Şehir Turu,Tarihi Yapı,Alhambra Sarayı,-3.587744337,37.1761894
+Malaga,Şehir Turu,Park,Paseo del Parque,-4.415448981,36.71919682
+Malaga,Şehir Turu,Meydan,Plaza de la Merced (Picasso'nun Doğduğu Yer),-4.417497248,36.72358495
+Malaga,Şehir Turu,Tarihi Bölge,Yahudi Mahallesi,-4.418655729,36.7216157
+Malaga,Şehir Turu,Meydan,Anayasa Meydanı,-4.421758717,36.72095115
+Malaga,Şehir Turu,Cadde,Larios Caddesi,-4.421501699,36.71947685
+Malaga,Şehir Turu,Liman,Puerto Marina,-4.513545558,36.5982797
+Malaga,Şehir Turu,Kale / Saray,La Alcazaba,-4.415888814,36.72121746
+Malaga,Şehir Turu,Kale,Gibralfaro Kalesi,-4.411102483,36.72355545
