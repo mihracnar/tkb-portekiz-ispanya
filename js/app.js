@@ -230,41 +230,79 @@ function renderParticipants(filterText = '') {
     filtered.forEach(item => {
         const p1 = item.p1;
         
-        const bus = p1['Otobüs Adı'] || '-';
-        const room = p1['Oda Tipi'] || '-';
-        const hotels = {
-            lizbon: p1['Lizbon Otel'],
-            sevilla: p1['Sevilla Otel'],
-            granada: p1['Granada Otel']
-        };
-
-        // İletişim
-        let contactHtml = '';
-        const phone1 = p1['Telefon'];
-        const ozKalemAd = p1['Özel Kalem Ad Soyad'];
-        const ozKalemTel = p1['Özel Kalem Telefon'];
-
-        if (phone1) contactHtml += `<div class="part-info-row">📱 ${p1['İsim']}: <a href="tel:${phone1}" class="btn-call">Ara</a></div>`;
+        // Lojistik
+        const busL = p1['Lizbon Otobüs'] || '-';
+        const busS = p1['Sevilla Otobüs'] || '-';
+        const busG = p1['Granada Otobüs'] || '-';
+        const room = p1['Oda Tipi'] || 'STD';
         
+        // Oteller
+        const hotels = [
+            { city: 'LIZ', name: p1['Lizbon Otel'] || '-' },
+            { city: 'SEV', name: p1['Sevilla Otel'] || '-' },
+            { city: 'GRA', name: p1['Granada Otel'] || '-' }
+        ];
+
+        // İletişim Satırları
+        let contactsHtml = '';
+        
+        // 1. Kişi
+        if (p1['Telefon']) {
+            contactsHtml += `
+            <div class="contact-row">
+                <div class="contact-icon-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-name">${p1['İsim']} ${p1['Soyisim']}</div>
+                    <div class="contact-number">${p1['Telefon']}</div>
+                </div>
+                <a href="tel:${p1['Telefon']}" class="contact-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </a>
+            </div>`;
+        }
+
+        // 2. Kişi (Eş)
         if (item.type === 'couple' && item.p2['Telefon']) {
-             contactHtml += `<div class="part-info-row">📱 ${item.p2['İsim']}: <a href="tel:${item.p2['Telefon']}" class="btn-call">Ara</a></div>`;
+            contactsHtml += `
+            <div class="contact-row">
+                <div class="contact-icon-wrap">
+                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-name">${item.p2['İsim']} ${item.p2['Soyisim']}</div>
+                    <div class="contact-number">${item.p2['Telefon']}</div>
+                </div>
+                <a href="tel:${item.p2['Telefon']}" class="contact-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </a>
+            </div>`;
         }
 
-        if (ozKalemAd || ozKalemTel) {
-            contactHtml += `<div class="part-section"><div class="part-label">Özel Kalem / İletişim</div>`;
-            if (ozKalemAd) contactHtml += `<div class="part-info-row">👤 ${ozKalemAd}</div>`;
-            if (ozKalemTel) contactHtml += `<div class="part-info-row">📞 <a href="tel:${ozKalemTel}" class="btn-call">${ozKalemTel}</a></div>`;
-            contactHtml += `</div>`;
+        // Özel Kalem
+        if (p1['Özel Kalem Telefon']) {
+            contactsHtml += `
+            <div class="contact-row" style="border-left:2px solid var(--border-subtle); margin-left:6px;">
+                <div class="contact-details">
+                    <div class="contact-name" style="font-size:11px; text-transform:uppercase; color:var(--text-muted)">Özel Kalem / Asistan</div>
+                    <div class="contact-name">${p1['Özel Kalem Ad Soyad'] || ''}</div>
+                    <div class="contact-number">${p1['Özel Kalem Telefon']}</div>
+                </div>
+                <a href="tel:${p1['Özel Kalem Telefon']}" class="contact-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </a>
+            </div>`;
         }
 
-        // İsim Alanı
+        // Header İsimler
         let namesHtml = '';
         if (item.type === 'couple') {
             namesHtml = `
                 <div class="part-name">${p1['İsim']} ${p1['Soyisim']}</div>
                 <div class="part-role">${p1['Ünvan']}</div>
-                <div class="part-name" style="margin-top:8px;">${item.p2['İsim']} ${item.p2['Soyisim']}</div>
-                <div class="part-role">${item.p2['Ünvan']}</div>
+                <div class="part-name" style="margin-top:8px; font-size:16px; opacity:0.9">${item.p2['İsim']} ${item.p2['Soyisim']}</div>
+                <div class="part-role" style="font-size:10px">${item.p2['Ünvan']}</div>
             `;
         } else {
             namesHtml = `
@@ -273,40 +311,48 @@ function renderParticipants(filterText = '') {
             `;
         }
 
-        // --- İKON SEÇİMİ ---
-        // Destek ekibiyse farklı ikon, belediyeyse bina ikonu
-        let headerIcon = item.type === 'support' 
-            ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' // Saat/İş ikonu
-            : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-2a2 2 0 0 1 4 0v2"/></svg>'; // Bina ikonu
+        // Kart Oluşturma
+        const muniLabel = p1['Belediye Adı'];
 
-        // Destek ekibiyse Belediye Adı yerine İl (Ekip Adı) yazılabilir veya olduğu gibi bırakılır.
-        // processParticipants içinde belediye adını zaten ayarladık.
-        
         html += `
         <div class="part-card ${item.type}">
+            <!-- HEADER -->
             <div class="part-header">
-                <div class="part-names">
+                <div class="part-identity">
                     ${namesHtml}
-                    <div class="part-muni">
-                        ${headerIcon}
-                        ${p1['Belediye Adı']} ${p1['İl'] && !p1['isSupport'] ? `(${p1['İl']})` : ''} 
+                    <div class="part-muni-tag">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-2a2 2 0 0 1 4 0v2"/></svg>
+                        ${muniLabel}
                     </div>
                 </div>
-                <div class="part-badges">
-                    <span class="part-badge bus">🚌 ${bus}</span>
-                    <span class="part-badge room">🛏️ ${room}</span>
+                <div class="room-badge">
+                    <span class="room-icon">🛏️</span>
+                    <span class="room-text">${room.substring(0, 5)}</span>
                 </div>
             </div>
+
+            <!-- LOJİSTİK -->
+            <div class="logistics-bar">
+                <div class="bus-pill"><span class="bus-city">L</span><span class="bus-name">${busL}</span></div>
+                <div class="bus-pill"><span class="bus-city">S</span><span class="bus-name">${busS}</span></div>
+                <div class="bus-pill"><span class="bus-city">G</span><span class="bus-name">${busG}</span></div>
+            </div>
+
+            <!-- BODY -->
             <div class="part-body">
-                ${contactHtml ? `<div class="part-section"><div class="part-label">İletişim</div>${contactHtml}</div>` : ''}
-                
-                <div class="part-section">
-                    <div class="part-label">Konaklama</div>
-                    <div class="hotel-grid">
-                        <div class="hotel-item"><div class="hotel-city">Lizbon</div><div class="hotel-name">${hotels.lizbon || '-'}</div></div>
-                        <div class="hotel-item"><div class="hotel-city">Sevilla</div><div class="hotel-name">${hotels.sevilla || '-'}</div></div>
-                        <div class="hotel-item"><div class="hotel-city">Granada</div><div class="hotel-name">${hotels.granada || '-'}</div></div>
-                    </div>
+                <div class="contact-list">
+                    ${contactsHtml}
+                </div>
+
+                <div class="hotel-timeline">
+                    ${hotels.map(h => `
+                    <div class="hotel-row">
+                        <div class="hotel-dot"></div>
+                        <div class="hotel-info">
+                            <span class="hotel-city-label">${h.city}</span>
+                            <span class="hotel-name-label">${h.name}</span>
+                        </div>
+                    </div>`).join('')}
                 </div>
             </div>
         </div>`;
