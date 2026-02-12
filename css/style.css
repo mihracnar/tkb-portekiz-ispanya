@@ -374,47 +374,52 @@ body::before { content: ''; position: fixed; inset: 0; background: radial-gradie
 .room-icon { font-size: 16px; margin-bottom: 2px; }
 .room-text { font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
 
-/* --- LOJİSTİK (OTOBÜSLER) --- */
+/* --- LOJİSTİK (OTOBÜSLER) - GÜNCELLENMİŞ --- */
 .logistics-bar {
     background: rgba(0, 0, 0, 0.2);
-    padding: 10px 20px;
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
+    padding: 10px 12px; /* Kenar boşluklarını biraz azalttık */
+    display: grid; /* Flex yerine Grid kullanarak eşit bölüyoruz */
+    grid-template-columns: repeat(3, 1fr); /* Tam 3 eşit parça */
+    gap: 6px;
     border-bottom: 1px solid var(--border-subtle);
 }
 
 .bus-pill {
-    flex: 1;
     display: flex;
-    align-items: center;
-    gap: 6px;
+    flex-direction: column; /* İçeriği alt alta diz */
+    align-items: center; /* Ortala */
+    justify-content: center;
     background: var(--bg-tertiary);
-    padding: 6px 8px;
-    border-radius: 6px;
+    padding: 8px 4px;
+    border-radius: 8px;
     border: 1px solid var(--border-subtle);
-    min-width: 80px;
+    text-align: center; /* Metni ortala */
+    height: 100%; /* Hepsi eşit boyda olsun */
 }
 
 .bus-city {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 800;
     color: var(--bg-primary);
     background: var(--gold-primary);
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    margin-bottom: 4px; /* Yazı ile ikon arasına boşluk */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .bus-name {
-    font-size: 11px;
+    font-size: 10px; /* Fontu biraz küçülttük */
     color: var(--text-primary);
     font-weight: 600;
-    white-space: nowrap;
+    white-space: normal; /* Uzun isimlerin alt satıra geçmesine izin ver */
+    line-height: 1.2;
+    word-break: break-word; /* Çok uzun kelimeleri böl */
+    max-width: 100%;
 }
 
 /* --- GÖVDE --- */
