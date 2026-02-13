@@ -312,7 +312,10 @@ function renderParticipants(filterText = '') {
         }
 
         // Kart Oluşturma
-        const muniLabel = p1['Belediye Adı'];
+        let muniLabel = p1['Belediye Adı'];
+        if (p1['İl'] && !p1.isSupport) {
+        muniLabel += ` <span style="opacity:0.8; font-weight:400">(${p1['İl']})</span>`;
+        }
 
         html += `
         <div class="part-card ${item.type}">
